@@ -107,7 +107,7 @@ DA-RNN consists a reccurent neural network for semantic labeling on RGB-D videos
     ```
 
 ### Using Our Trained Models
-1. You can download all our trained tensorflow models on the RGB-D Scene dataset and the ShapeNet Scane dataset from [here](https://drive.google.com/file/d/0B4WdmTHU8V7VQWFnRmFIVTA1LXc/view?usp=sharing) (3.1G).
+1. You can download all our trained tensorflow models on the RGB-D Scene dataset and the ShapeNet Scene dataset from [here](https://drive.google.com/file/d/0B4WdmTHU8V7VQWFnRmFIVTA1LXc/view?usp=sharing) (3.1G).
 
     ```Shell
     # an exmaple to test the trained model

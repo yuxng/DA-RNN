@@ -51,9 +51,7 @@ DA-RNN consists a reccurent neural network for semantic labeling on RGB-D videos
     make
     ```
 
-    **Note 1:** If you see errors in calling Eigen like "calling a host function from a device function", please download and use our modified Eigen from [here](https://drive.google.com/open?id=0B4WdmTHU8V7VTDFIdU5IWGxkMGM).
-
-    **Note 2:** For Sophus, if you do "git checkout 341346e306d657ac8acaf052939ffd85dacd8f82", should get the same version I used. It seems that the new version removes the SE3Group class.
+    **Note:** If you see errors in calling Eigen like "calling a host function from a device function", please download and use our modified Eigen from [here](https://drive.google.com/open?id=0B4WdmTHU8V7VTDFIdU5IWGxkMGM).
 
 4. Compile the Cython interface for RNN and KinectFusion
     ```Shell

@@ -40,7 +40,7 @@ DA-RNN consists a reccurent neural network for semantic labeling on RGB-D videos
    Install dependencies of KinectFusion:
    - [Pangolin](https://github.com/stevenlovegrove/Pangolin)
    - [Eigen](https://eigen.tuxfamily.org)
-   - [Sophus](https://github.com/strasdat/Sophus)
+   - [Sophus](https://github.com/strasdat/Sophus/tree/v0.9.5)
    - [nanoflann](https://github.com/jlblancoc/nanoflann)
 
     ```Shell

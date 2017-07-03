@@ -51,6 +51,8 @@ DA-RNN consists a reccurent neural network for semantic labeling on RGB-D videos
     make
     ```
 
+    **Note:** If you see errors in Eigen like "calling a host function from a device function", please download and use our modified Eigen from [here](https://drive.google.com/open?id=0B4WdmTHU8V7VTDFIdU5IWGxkMGM)
+
 4. Compile the Cython interface for RNN and KinectFusion
     ```Shell
     cd $ROOT/lib

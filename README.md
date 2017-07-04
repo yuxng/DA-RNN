@@ -42,6 +42,7 @@ DA-RNN consists a reccurent neural network for semantic labeling on RGB-D videos
    - [Eigen](https://eigen.tuxfamily.org)
    - [Sophus](https://github.com/strasdat/Sophus/tree/v0.9.5)
    - [nanoflann](https://github.com/jlblancoc/nanoflann)
+   - libsuitesparse-dev
 
     ```Shell
     cd $ROOT/lib/kinect_fusion

@@ -59,6 +59,16 @@ DA-RNN consists a reccurent neural network for semantic labeling on RGB-D videos
     python setup.py build_ext --inplace
     ```
 
+    You may need to add a symbolic link to your numpy installation from within 
+    
+    e.g.:
+    ```Shell
+    cd /usr/local/include
+    ln -s /usr/local/lib/python2.7/site-packages/numpy/core/include/numpy numpy
+    ```
+
+    Note that the path may change according to your installation.
+    
 5. Add the KinectFusion libary path
     ```Shell
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROOT/lib/kinect_fusion/build

@@ -22,8 +22,8 @@ import tensorflow as tf
 import scipy.io
 import time
 from normals import gpu_normals
-from pose_estimation import ransac
 from kinect_fusion import kfusion
+# from pose_estimation import ransac
 
 def _get_image_blob(im, im_depth, meta_data):
     """Converts an image into a network input.

@@ -67,6 +67,11 @@ DA-RNN consists a reccurent neural network for semantic labeling on RGB-D videos
 
 6. Download the VGG16 weights from [here](https://drive.google.com/open?id=0B4WdmTHU8V7VMTducllWZzA0REU) (57M). Put the weight file vgg16_convs.npy to $ROOT/data/imagenet_models.
 
+### Tested environment
+- Ubuntu 16.04
+- Tensorflow 1.2.0
+- CUDA 8.0
+
 ### Running on the RGB-D Scene dataset
 1. Download the RGB-D Scene dataset from [here](https://drive.google.com/open?id=0B4WdmTHU8V7VaHIxckxwbVpabFU) (5.5G).
 
@@ -87,11 +92,6 @@ DA-RNN consists a reccurent neural network for semantic labeling on RGB-D videos
     ./experiments/scripts/rgbd_scene_single_*.sh $GPU_ID
 
     ```
-
-### Tested environment
-- Ubuntu 16.04
-- Tensorflow 1.2.0
-- CUDA 8.0
 
 ### Running on the ShapeNet Scene dataset
 1. Download the ShapeNet Scene dataset from [here](https://drive.google.com/open?id=0B4WdmTHU8V7VTzRfZTFPd0JKYTg) (2.3G).

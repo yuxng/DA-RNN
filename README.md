@@ -88,6 +88,11 @@ DA-RNN consists a reccurent neural network for semantic labeling on RGB-D videos
 
     ```
 
+### Tested environment
+- Ubuntu 16.04
+- Tensorflow 1.2.0
+- CUDA 8.0
+
 ### Running on the ShapeNet Scene dataset
 1. Download the ShapeNet Scene dataset from [here](https://drive.google.com/open?id=0B4WdmTHU8V7VTzRfZTFPd0JKYTg) (2.3G).
 

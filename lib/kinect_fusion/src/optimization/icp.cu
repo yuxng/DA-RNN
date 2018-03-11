@@ -26,7 +26,8 @@ __global__ void icpKernel(internal::JacobianAndResidual<Scalar,1,6> * jacobiansA
                           const DeviceTensor2<Eigen::UnalignedVec<Scalar,DPred> > predictedVertices,
                           const DeviceTensor2<Eigen::UnalignedVec<Scalar,DPred> > predictedNormals,
                           const CameraModelT cameraModel,
-                          const Sophus::SE3Group<Scalar> updatedPose,
+                          const Sophus::SE3<Scalar> updatedPose,
+                          const Eigen::Matrix<Scalar,6,1> initialPose,
                           const Eigen::Matrix<Scalar,2,1> depthRange,
                           const Scalar maxError,
                           DebugArgsT ... debugArgs) {
@@ -125,8 +126,8 @@ __global__ void icpKernel(internal::JacobianAndResidual<Scalar,1,6> * jacobiansA
                                           0, 1, 0, -updatedPredVertex(2),                     0,  updatedPredVertex(0),
                                           0, 0, 1,  updatedPredVertex(1), -updatedPredVertex(0),                     0;
 
-        jacobiansAndResiduals[x + width*y].J = weightSqrt*dError_dUpdatedPredictedPoint*dUpdatedPredictedPoint_dUpdate;
-        jacobiansAndResiduals[x + width*y].r = weightSqrt*error;
+        jacobiansAndResiduals[x + width*y].J = weightSqrt * dError_dUpdatedPredictedPoint * dUpdatedPredictedPoint_dUpdate;
+        jacobiansAndResiduals[x + width*y].r = weightSqrt * error;
 
         const uchar gray = min(Scalar(255),255 * absError / maxError );
         PixelDebugger<DebugArgsT...>::debugPixel(Eigen::Vector2i(x,y),Eigen::UnalignedVec4<uchar>(gray,gray,gray,255),debugArgs...);
@@ -145,7 +146,8 @@ LinearSystem<Scalar,6> icpIteration(const DeviceTensor2<Eigen::UnalignedVec3<Sca
                                     const DeviceTensor2<Eigen::UnalignedVec<Scalar,DPred> > & predVertices,
                                     const DeviceTensor2<Eigen::UnalignedVec<Scalar,DPred> > & predNormals,
                                     const CameraModelT & cameraModel,
-                                    const Sophus::SE3Group<Scalar> & predictionPose,
+                                    const Sophus::SE3<Scalar> & predictionPose,
+                                    const Eigen::Matrix<Scalar,6,1>& initialPose,
                                     const Eigen::Matrix<Scalar,2,1> & depthRange,
                                     const Scalar maxError,
                                     const dim3 grid,
@@ -161,6 +163,7 @@ LinearSystem<Scalar,6> icpIteration(const DeviceTensor2<Eigen::UnalignedVec3<Sca
                                       liveVertices,predVertices,predNormals,
                                       cameraModel,
                                       predictionPose,
+                                      initialPose,
                                       depthRange,
                                       maxError,
                                       debugArgs ...);
@@ -210,6 +213,26 @@ LinearSystem<Scalar,6> icpIteration(const DeviceTensor2<Eigen::UnalignedVec3<Sca
                                                              LinearSystemCreationFunctor<Scalar,1,6>(),
                                                              LinearSystem<Scalar,6>::zero(),
                                                              LinearSystemSumFunctor<Scalar,6>());
+/*
+    static constexpr Scalar huberAlpha = Scalar(0.01);
+
+    const Scalar totalResidual = thrust::transform_reduce(jacobiansAndResiduals.begin(),
+                                                          jacobiansAndResiduals.end(),
+                                                          ResidualFunctorHuber<Scalar,1,6>(huberAlpha),
+                                                          Scalar(0),
+                                                          thrust::plus<Scalar>());
+
+    std::cout << "icp residual" << totalResidual << std::endl;
+
+
+
+    GlobalTimer::tick("transform_reduce");
+    LinearSystem<Scalar,6> system = thrust::transform_reduce(jacobiansAndResiduals.begin(),
+                                                             jacobiansAndResiduals.end(),
+                                                             LinearSystemCreationFunctorHuber<Scalar,1,6>(huberAlpha),
+                                                             LinearSystem<Scalar,6>::zero(),
+                                                             LinearSystemSumFunctor<Scalar,6>());
+*/
 
     cudaDeviceSynchronize();
     CheckCudaDieOnError();
@@ -231,6 +254,7 @@ template LinearSystem<float,6> icpIteration(const DeviceTensor2<Eigen::Unaligned
                                             const DeviceTensor2<Eigen::UnalignedVec3<float> > &,
                                             const Poly3CameraModel<float> &,
                                             const Sophus::SE3f &,
+                                            const Eigen::Matrix<float,6,1> &,
                                             const Eigen::Vector2f &,
                                             const float,
                                             const dim3, const dim3);
@@ -240,6 +264,7 @@ template LinearSystem<float,6> icpIteration(const DeviceTensor2<Eigen::Unaligned
                                             const DeviceTensor2<Eigen::UnalignedVec3<float> > &,
                                             const Poly3CameraModel<float> &,
                                             const Sophus::SE3f &,
+                                            const Eigen::Matrix<float,6,1> &,
                                             const Eigen::Vector2f &,
                                             const float,
                                             const dim3, const dim3,                                                                                         \
@@ -250,6 +275,7 @@ template LinearSystem<float,6> icpIteration(const DeviceTensor2<Eigen::Unaligned
                                             const DeviceTensor2<Eigen::UnalignedVec4<float> > &,
                                             const Poly3CameraModel<float> &,
                                             const Sophus::SE3f &,
+                                            const Eigen::Matrix<float,6,1> &,
                                             const Eigen::Vector2f &,
                                             const float,
                                             const dim3, const dim3);
@@ -259,6 +285,7 @@ template LinearSystem<float,6> icpIteration(const DeviceTensor2<Eigen::Unaligned
                                             const DeviceTensor2<Eigen::UnalignedVec4<float> > &,
                                             const Poly3CameraModel<float> &,
                                             const Sophus::SE3f &,
+                                            const Eigen::Matrix<float,6,1> &,
                                             const Eigen::Vector2f &,
                                             const float,
                                             const dim3, const dim3,                                                                                         \

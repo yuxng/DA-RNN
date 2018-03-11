@@ -1,6 +1,6 @@
 # --------------------------------------------------------
-# DA-RNN
-# Copyright (c) 2016 RSE at UW
+# Fast R-CNN
+# Copyright (c) 2015 Microsoft
 # Licensed under The MIT License [see LICENSE for details]
-# Written by Yu Xiang
+# Written by Ross Girshick
 # --------------------------------------------------------

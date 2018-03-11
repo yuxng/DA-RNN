@@ -66,17 +66,17 @@ if __name__ == '__main__':
 
     # voxel labels
     labels_voxel = np.zeros((128, 128, 128), dtype=np.int32) 
+    probs = np.zeros((480, 640, 10), dtype=np.float32)
 
     # kinect fusion
     KF = kfusion.PyKinectFusion(args.rig_name)
 
     # construct colors
-    colors = np.zeros((3, imdb.num_classes), dtype=np.uint8)
+    colors = np.zeros((3 * imdb.num_classes), dtype=np.uint8)
     for i in range(imdb.num_classes):
-        colors[0, i] = imdb._class_colors[i][0]
-        colors[1, i] = imdb._class_colors[i][1]
-        colors[2, i] = imdb._class_colors[i][2]
-    colors[:,0] = 255
+        colors[i * 3 + 0] = imdb._class_colors[i][0]
+        colors[i * 3 + 1] = imdb._class_colors[i][1]
+        colors[i * 3 + 2] = imdb._class_colors[i][2]
 
     video_index = ''
     have_prediction = False
@@ -89,13 +89,13 @@ if __name__ == '__main__':
             video_index = image_index[:pos]
             have_prediction = False
             # open file to save camera poses
-            filename = '/var/Projects/FCN/data/RGBDScene/models/' + video_index + '.txt'
+            filename = '/capri/RGBDScene/models/' + video_index + '.txt'
             file = open(filename, 'w')
             frame_index = 0
         else:
             if video_index != image_index[:pos]:
                 # save the model
-                filename = '/var/Projects/FCN/data/RGBDScene/models/' + video_index + '.ply'
+                filename = '/capri/RGBDScene/models/' + video_index + '.ply'
                 KF.save_model(filename)
                 print 'save model to file: {}'.format(filename)
 
@@ -106,7 +106,7 @@ if __name__ == '__main__':
 
                 # open new pose file
                 file.close()
-                filename = '/var/Projects/FCN/data/RGBDScene/models/' + video_index + '.txt'
+                filename = '/capri/RGBDScene/models/' + video_index + '.txt'
                 file = open(filename, 'w')
                 frame_index = 0
 
@@ -144,19 +144,23 @@ if __name__ == '__main__':
 
         KF.fuse_depth()
         print 'finish fuse depth'
-        KF.extract_surface()
+        height = im.shape[0]
+        width = im.shape[1]
+        labels_kfusion = np.zeros((height, width), dtype=np.int32)
+        KF.extract_surface(labels_kfusion)
         print 'finish extract surface'
         KF.render()
         print 'finish render'
-        KF.feed_label(im, labels_voxel, colors)
+        KF.feed_label(im, probs, colors)
         print 'finish feed label'
-        KF.draw()
+        filename = os.path.join('/capri/RGBDScene/images/', '{:04d}.png'.format(i))
+        KF.draw(filename, 0)
         print 'finish draw'
 
         have_prediction = True
 
         if i == num_images - 1:
             # save the model
-            filename = '/var/Projects/FCN/data/RGBDScene/models/' + video_index + '.ply'
+            filename = '/capri/RGBDScene/models/' + video_index + '.ply'
             KF.save_model(filename)
             file.close()

@@ -40,7 +40,7 @@ DA-RNN consists a reccurent neural network for semantic labeling on RGB-D videos
    Install dependencies of KinectFusion:
    - [Pangolin](https://github.com/stevenlovegrove/Pangolin)
    - [Eigen](https://eigen.tuxfamily.org)
-   - [Sophus](https://github.com/strasdat/Sophus/tree/v0.9.5)
+   - [Sophus](https://github.com/strasdat/Sophus.git)
    - [nanoflann](https://github.com/jlblancoc/nanoflann)
    - libsuitesparse-dev
 
@@ -51,8 +51,6 @@ DA-RNN consists a reccurent neural network for semantic labeling on RGB-D videos
     cmake ..
     make
     ```
-
-    **Note:** If you see errors in calling Eigen like "calling a host function from a device function", please download and use our modified Eigen from [here](https://drive.google.com/open?id=0B4WdmTHU8V7VTDFIdU5IWGxkMGM).
 
 4. Compile the Cython interface for RNN and KinectFusion
     ```Shell

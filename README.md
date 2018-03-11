@@ -1,6 +1,6 @@
 # DA-RNN: Semantic Mapping with Data Associated Recurrent Neural Networks
 
-Created by Yu Xiang at [RSE-Lab](http://rse-lab.cs.washington.edu/) at University of Washington.
+Created by Yu Xiang and Tanner Schmidt at [RSE-Lab](http://rse-lab.cs.washington.edu/) at University of Washington.
 
 ### Introduction
 
@@ -40,8 +40,9 @@ DA-RNN consists a reccurent neural network for semantic labeling on RGB-D videos
    Install dependencies of KinectFusion:
    - [Pangolin](https://github.com/stevenlovegrove/Pangolin)
    - [Eigen](https://eigen.tuxfamily.org)
-   - [Sophus](https://github.com/strasdat/Sophus)
+   - [Sophus](https://github.com/strasdat/Sophus/tree/v0.9.5)
    - [nanoflann](https://github.com/jlblancoc/nanoflann)
+   - libsuitesparse-dev
 
     ```Shell
     cd $ROOT/lib/kinect_fusion
@@ -50,6 +51,8 @@ DA-RNN consists a reccurent neural network for semantic labeling on RGB-D videos
     cmake ..
     make
     ```
+
+    **Note:** If you see errors in calling Eigen like "calling a host function from a device function", please download and use our modified Eigen from [here](https://drive.google.com/open?id=0B4WdmTHU8V7VTDFIdU5IWGxkMGM).
 
 4. Compile the Cython interface for RNN and KinectFusion
     ```Shell
@@ -63,6 +66,11 @@ DA-RNN consists a reccurent neural network for semantic labeling on RGB-D videos
     ```
 
 6. Download the VGG16 weights from [here](https://drive.google.com/open?id=0B4WdmTHU8V7VMTducllWZzA0REU) (57M). Put the weight file vgg16_convs.npy to $ROOT/data/imagenet_models.
+
+### Tested environment
+- Ubuntu 16.04
+- Tensorflow 1.2.0
+- CUDA 8.0
 
 ### Running on the RGB-D Scene dataset
 1. Download the RGB-D Scene dataset from [here](https://drive.google.com/open?id=0B4WdmTHU8V7VaHIxckxwbVpabFU) (5.5G).
@@ -107,7 +115,7 @@ DA-RNN consists a reccurent neural network for semantic labeling on RGB-D videos
     ```
 
 ### Using Our Trained Models
-1. You can download all our trained tensorflow models on the RGB-D Scene dataset and the ShapeNet Scane dataset from [here](https://drive.google.com/file/d/0B4WdmTHU8V7VQWFnRmFIVTA1LXc/view?usp=sharing) (3.1G).
+1. You can download all our trained tensorflow models on the RGB-D Scene dataset and the ShapeNet Scene dataset from [here](https://drive.google.com/file/d/0B4WdmTHU8V7VQWFnRmFIVTA1LXc/view?usp=sharing) (3.1G).
 
     ```Shell
     # an exmaple to test the trained model
